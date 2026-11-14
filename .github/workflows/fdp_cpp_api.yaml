@@ -9,10 +9,10 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: 
-          python-version: "3.9"
+          python-version: "3.10"
           architecture: "x64"
       - name: Install graphviz
         run:  |
@@ -20,7 +20,7 @@ jobs:
       - name: Install local registry
         run: curl -fsSL https://data.scrc.uk/static/localregistry.sh | /bin/bash -s -- -b main
       - name: Checkout FAIRDataPipeline/FAIR-CLI
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           repository: FAIRDataPipeline/FAIR-CLI
           path: FAIR-CLI
@@ -47,7 +47,7 @@ jobs:
         run: |
           cmake -Bbuild -DFDPAPI_BUILD_TESTS=ON -DFDPAPI_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=install
       - name: Fetch cache
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: sonarCache
           key: ${{ runner.os }}-sonarCache-${{ github.sha }}
@@ -98,7 +98,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Install Dependencies
         run: |
           brew install cmake
@@ -120,7 +120,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Configure Library
         run: |

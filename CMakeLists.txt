@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 # Define Project
 project(fdpapi
-    VERSION 0.2.7
+    VERSION 0.2.8
     DESCRIPTION "C++ API for the FAIR Data Pipeline"
     HOMEPAGE_URL "https://github.com/FAIRDataPipeline/cppDataPipeline"
     LANGUAGES CXX C
