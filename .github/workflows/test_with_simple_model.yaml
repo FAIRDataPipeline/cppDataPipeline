@@ -20,7 +20,11 @@ jobs:
               sudo apt-get install graphviz
               sudo apt-get install -y gnuplot
       - name: Install local registry
-        run: curl -fsSL https://data.scrc.uk/static/localregistry.sh | /bin/bash -s -- -b main
+        run: |
+          python3 -m venv ${{ runner.temp }}/registry-venv
+          source ${{ runner.temp }}/registry-venv/bin/activate
+          pip3 install fair-cli
+          fair registry install
       - name: Checkout C++ Simple Model
         uses: actions/checkout@v7
         with:

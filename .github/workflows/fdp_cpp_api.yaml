@@ -17,8 +17,6 @@ jobs:
       - name: Install graphviz
         run:  |
               sudo apt-get install graphviz
-      - name: Install local registry
-        run: curl -fsSL https://data.scrc.uk/static/localregistry.sh | /bin/bash -s -- -b main
       - name: Checkout FAIRDataPipeline/FAIR-CLI
         uses: actions/checkout@v7
         with:
@@ -37,8 +35,9 @@ jobs:
           poetry install
           source .venv/bin/activate
           cd ${{ github.workspace }}
-          fair init --ci
+          fair registry install
           fair registry start
+          fair init --ci
       - name: Install Dependencies
         run: |
           sudo apt update
