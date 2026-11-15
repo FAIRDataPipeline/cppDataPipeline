@@ -10,6 +10,8 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # Full history improves Sonar's attribution of new issues
       - uses: actions/setup-python@v7
         with: 
           python-version: "3.10"
@@ -45,39 +47,21 @@ jobs:
       - name: Configure Library
         run: |
           cmake -Bbuild -DFDPAPI_BUILD_TESTS=ON -DFDPAPI_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=install
-      - name: Fetch cache
-        uses: actions/cache@v6
-        with:
-          path: sonarCache
-          key: ${{ runner.os }}-sonarCache-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-sonarCache-
-      - name: Prepare Sonar scanner
-        run: |
-          wget -nv https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
-          unzip -q sonar-scanner-cli-4.6.0.2311-linux.zip
-          echo "${PWD}/sonar-scanner-4.6.0.2311-linux/bin/" >> $GITHUB_PATH
-          wget -nv https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
-          unzip -q build-wrapper-linux-x86.zip          
-          echo "${PWD}/build-wrapper-linux-x86" >> $GITHUB_PATH
+      - name: Install Build Wrapper
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8
       - name: Build and Run Unit Tests
         run: |
-         build-wrapper-linux-x86-64 --out-dir bw-outputs cmake --build build --target coverage
-         if [ $? -eq 0 ]; then
-           echo "Unit tests completed successfully"
-           exit 0
-         else
-           echo "Unit tests failed"
-           exit 1
-         fi
+          build-wrapper-linux-x86-64 --out-dir bw-outputs cmake --build build --target coverage
         env:
           CIBuild: 1
-          BUILD_TESTS: True 
+          BUILD_TESTS: True
       - name: SonarCloud Scan
-        run: |
-          sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -X
+        uses: SonarSource/sonarqube-scan-action@v8
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            --define sonar.cfamily.compile-commands=bw-outputs/compile_commands.json
       - name: Build from Install
         run: |
          cmake --build build --target install
