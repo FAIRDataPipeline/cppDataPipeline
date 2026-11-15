@@ -1,4 +1,5 @@
 #include "fdp/objects/api_object.hxx"
+#include "fdp/exceptions.hxx"
 
 namespace FairDataPipeline {
 
@@ -67,6 +68,11 @@ namespace FairDataPipeline {
     }
 
     int ApiObject::get_id_from_string(std::string url){
+        if (url.empty()) {
+            throw rest_apiquery_error(
+                "Cannot get an object id from an empty url; the registry "
+                "may not have returned the expected object");
+        }
         if (url.back() == '/')        {
             url = url.substr(0, url.size() - 1);
         }

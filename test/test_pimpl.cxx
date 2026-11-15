@@ -42,7 +42,7 @@ TEST_F(PimplTest, TestDataPipelineInit) {
   logger::get_logger()->set_level( logging::LOG_LEVEL::DEBUG );
   DataPipeline::sptr dp = DataPipeline::construct(config_path_.string(), script_path_.string(), token );
 
-  std::string data_product = "test/csv";
+  std::string data_product = "test/csv/pimpl";
   ghc::filesystem::path currentLink = ghc::filesystem::path(dp->link_write(data_product));
   EXPECT_GT(currentLink.string().size(), 1);
 

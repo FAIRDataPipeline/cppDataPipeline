@@ -39,11 +39,12 @@ std::string generate_random_hash() {
 
   // Using mt19937 and a uniform distribution generate a 24 character random
   // string
+  static const char charset[] = "0123456789abcdefghijklmnopqrstuvwxyz";
   std::mt19937 gen(seed);
-  std::uniform_int_distribution<unsigned> distrib('a', '9');
+  std::uniform_int_distribution<std::size_t> distrib(0, sizeof(charset) - 2);
 
   for (unsigned long j = 0; j < 24; ++j) {
-    random_string += distrib(gen);
+    random_string += charset[distrib(gen)];
   }
 
   return calculate_hash_from_string(random_string);

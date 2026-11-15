@@ -9,10 +9,10 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
-          python-version: "3.9"
+          python-version: "3.10"
           architecture: "x64"
       - name: Install graphviz
         run:  |
@@ -20,14 +20,18 @@ jobs:
               sudo apt-get install graphviz
               sudo apt-get install -y gnuplot
       - name: Install local registry
-        run: curl -fsSL https://data.scrc.uk/static/localregistry.sh | /bin/bash -s -- -b main
+        run: |
+          python3 -m venv ${{ runner.temp }}/registry-venv
+          source ${{ runner.temp }}/registry-venv/bin/activate
+          pip3 install fair-cli
+          fair registry install
       - name: Checkout C++ Simple Model
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with:
           repository: FAIRDataPipeline/cppSimpleModel
           path: cppSimpleModel
       - name: Checkout C Simple Model
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with:
           repository: PlasmaFAIR/cDataPipelineSimpleModel
           path: cSimpleModel
@@ -97,7 +101,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           cmake -B build -DCMAKE_INSTALL_PREFIX=../install
@@ -108,12 +112,12 @@ jobs:
               sudo apt-get install graphviz
               sudo apt-get install -y gnuplot
       - name: Checkout C++ SimpleModel
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           repository: FAIRDataPipeline/cppSimpleModel
           path: cppSimpleModel
       - name: Checkout C SimpleModel
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           repository: PlasmaFAIR/cDataPipelineSimpleModel
           path: cSimpleModel

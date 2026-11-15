@@ -2,6 +2,7 @@
 #define TESTDIR ""
 #endif
 #include "fdp/objects/api_object.hxx"
+#include "fdp/exceptions.hxx"
 #include "gtest/gtest.h"
 
 #include "fdp/utilities/json.hxx"
@@ -38,6 +39,10 @@ TEST_F(ApiObjectTest, testGetType) {
 
 TEST_F(ApiObjectTest, testGetIdFromString) {
   ASSERT_EQ(test_obj->get_id(), 1);
+}
+
+TEST_F(ApiObjectTest, testGetIdFromEmptyString) {
+  EXPECT_THROW(ApiObject::get_id_from_string(""), rest_apiquery_error);
 }
 
 TEST_F(ApiObjectTest, testGetUri) {

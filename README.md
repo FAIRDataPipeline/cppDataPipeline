@@ -36,13 +36,6 @@ The library can be installed system-wide using:
 $ cmake --build build --target install
 ```
 
-Note that this will require Boost to be installed to your system, or you may need to
-build a shared library:
-
-```
-$ cmake -B build -DFDPAPI_BUILD_TESTS=ON -DBUILD_SHARED_LIBS=ON
-```
-
 After doing so, the library can be discovered and utilised in other CMake projects
 using:
 

@@ -18,3 +18,6 @@ read:
 - data_product: test/csv/c
   use:
     version: 0.0.1
+- data_product: test/csv/pimpl
+  use:
+    version: 0.0.1

@@ -23,3 +23,18 @@ write:
   file_type: csv
   use:    
     version: 0.0.1
+- data_product: test/csv/cpp_to_c
+  description: test csv file with simple data
+  file_type: csv
+  use:    
+    version: 0.0.1
+- data_product: test/csv/c_to_cpp
+  description: test csv file with simple data
+  file_type: csv
+  use:    
+    version: 0.0.1
+- data_product: test/csv/pimpl
+  description: test csv file with simple data
+  file_type: csv
+  use:    
+    version: 0.0.1
