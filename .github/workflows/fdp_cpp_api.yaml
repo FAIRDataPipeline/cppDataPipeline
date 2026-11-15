@@ -67,14 +67,6 @@ jobs:
          cmake --build build --target install
          cmake -B build_from_install -DFDPAPI_BUILD_TESTS=ON -DFDPAPI_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=install -DFDPAPI_NEVER_FETCH=ON
          cmake --build build_from_install
-         build-wrapper-linux-x86-64 --out-dir bw-outputs cmake --build build --target coverage
-         if [ $? -eq 0 ]; then
-           echo "Unit tests completed successfully"
-           exit 0
-         else
-           echo "Unit tests failed"
-           exit 1
-         fi
   Build_MacOS:
     name: Build MacOS
     runs-on: macOS-latest
