@@ -88,7 +88,7 @@ TEST(CTest, cpp_to_c) {
 
   // Test link write
   buf[0] = '\0'; // Ensure strlen of output buffer is 0
-  EXPECT_EQ(fdp_link_write(c_pipeline, "test/csv", buf, BUFFER_SIZE),
+  EXPECT_EQ(fdp_link_write(c_pipeline, "test/csv/cpp_to_c", buf, BUFFER_SIZE),
             FDP_ERR_NONE);
   EXPECT_GT(strlen(buf), 1);
 
@@ -121,7 +121,7 @@ TEST(CTest, c_to_cpp) {
   auto cpp_pipeline = fdp::from_c_struct(c_pipeline);
 
   // Test link write
-  std::string data_product = "test/csv";
+  std::string data_product = "test/csv/c_to_cpp";
   fs::path currentLink = fs::path(cpp_pipeline->link_write(data_product));
   EXPECT_GT(currentLink.string().size(), 1);
 
